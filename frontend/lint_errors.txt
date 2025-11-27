@@ -1,0 +1,45 @@
+
+> frontend@0.1.0 lint
+> eslint
+
+
+E:\Personal\Lamaran\Foom Lab Global\foom_lab_global_technical_test_final\frontend\app\layout.tsx
+  2:10  warning  'ThemeProvider' is defined but never used  @typescript-eslint/no-unused-vars
+
+E:\Personal\Lamaran\Foom Lab Global\foom_lab_global_technical_test_final\frontend\app\page.tsx
+  47:6   warning  React Hook useEffect has a missing dependency: 'fetchStocks'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  65:19  error    Unexpected any. Specify a different type                                                                        @typescript-eslint/no-explicit-any
+
+E:\Personal\Lamaran\Foom Lab Global\foom_lab_global_technical_test_final\frontend\app\purchase-requests\[id]\edit\page.tsx
+   54:6   warning  React Hook useEffect has a missing dependency: 'fetchInitialData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   71:48  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+   89:14  warning  'err' is defined but never used                                                                                      @typescript-eslint/no-unused-vars
+   89:19  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  130:19  error    Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+
+E:\Personal\Lamaran\Foom Lab Global\foom_lab_global_technical_test_final\frontend\app\purchase-requests\[id]\page.tsx
+   40:6   warning  React Hook useEffect has a missing dependency: 'fetchPurchaseRequest'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   45:23  error    Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+   50:19  error    Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+  179:50  error    Unexpected any. Specify a different type                                                                                 @typescript-eslint/no-explicit-any
+
+E:\Personal\Lamaran\Foom Lab Global\foom_lab_global_technical_test_final\frontend\app\purchase-requests\new\page.tsx
+    6:3   warning  'Paper' is defined but never used         @typescript-eslint/no-unused-vars
+   20:3   warning  'Divider' is defined but never used       @typescript-eslint/no-unused-vars
+   72:14  warning  'err' is defined but never used           @typescript-eslint/no-unused-vars
+   72:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  135:19  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+E:\Personal\Lamaran\Foom Lab Global\foom_lab_global_technical_test_final\frontend\app\purchase-requests\page.tsx
+   66:23  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+   71:19  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  104:19  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any
+  132:7   error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  136:7   error  Use "@ts-expect-error" instead of "@ts-ignore", as "@ts-ignore" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment
+  304:52  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                      react/no-unescaped-entities
+  304:67  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                      react/no-unescaped-entities
+  474:53  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                      react/no-unescaped-entities
+  474:69  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                      react/no-unescaped-entities
+
+Γ£û 26 problems (18 errors, 8 warnings)
+

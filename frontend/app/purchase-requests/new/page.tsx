@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Container,
-  Paper,
   Typography,
   Box,
   Button,
@@ -17,7 +16,6 @@ import {
   CircularProgress,
   Card,
   CardContent,
-  Divider,
 } from "@mui/material";
 import {
   Add as AddIcon,
@@ -69,7 +67,7 @@ export default function NewPurchaseRequestPage() {
         { id: 2, name: "Branch Warehouse Surabaya" },
         { id: 3, name: "Branch Warehouse Bandung" },
       ]);
-    } catch (err: any) {
+    } catch {
       setError("Failed to load form data");
     } finally {
       setLoading(false);
@@ -132,9 +130,11 @@ export default function NewPurchaseRequestPage() {
       setTimeout(() => {
         router.push("/purchase-requests");
       }, 1500);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error = err as any;
       setError(
-        err.response?.data?.message || "Failed to create purchase request"
+        error.response?.data?.message || "Failed to create purchase request"
       );
     } finally {
       setSubmitting(false);

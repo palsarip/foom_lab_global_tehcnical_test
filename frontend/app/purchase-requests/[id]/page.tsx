@@ -24,7 +24,7 @@ import {
 import { ArrowBack as ArrowBackIcon } from "@mui/icons-material";
 import { useRouter, useParams } from "next/navigation";
 import { api } from "@/lib/api";
-import { PurchaseRequest } from "@/types";
+import { PurchaseRequest, ApiResponse } from "@/types";
 
 export default function PurchaseRequestDetailsPage() {
   const router = useRouter();
@@ -36,26 +36,30 @@ export default function PurchaseRequestDetailsPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchPurchaseRequest();
-  }, []);
+    const fetchPurchaseRequest = async () => {
+      try {
+        setLoading(true);
+        const response = (await api.getPurchaseRequest(
+          id
+        )) as ApiResponse<PurchaseRequest>;
 
-  const fetchPurchaseRequest = async () => {
-    try {
-      setLoading(true);
-      const response: any = await api.getPurchaseRequest(id);
-
-      if (response.status === "success" && response.data) {
-        setPr(response.data);
+        if (response.status === "success" && response.data) {
+          setPr(response.data);
+        }
+      } catch (err: unknown) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const error = err as any;
+        setError(
+          error.response?.data?.message ||
+            "Failed to fetch purchase request details"
+        );
+      } finally {
+        setLoading(false);
       }
-    } catch (err: any) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to fetch purchase request details"
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    fetchPurchaseRequest();
+  }, [id]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -176,7 +180,7 @@ export default function PurchaseRequestDetailsPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pr.PurchaseRequestItems?.map((item: any) => (
+            {pr.PurchaseRequestItems?.map((item) => (
               <TableRow key={item.id} hover>
                 <TableCell>{item.Product?.name || "Unknown Product"}</TableCell>
                 <TableCell>{item.Product?.sku || "-"}</TableCell>

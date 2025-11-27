@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js",
+  "/purchase-requests/[id]/edit/page": "app/purchase-requests/[id]/edit/page.js",
+  "/purchase-requests/[id]/page": "app/purchase-requests/[id]/page.js",
+  "/purchase-requests/new/page": "app/purchase-requests/new/page.js",
+  "/purchase-requests/page": "app/purchase-requests/page.js"
+}

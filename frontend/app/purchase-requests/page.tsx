@@ -31,7 +31,7 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 import { api } from "@/lib/api";
-import { PurchaseRequest } from "@/types";
+import { PurchaseRequest, ApiResponse } from "@/types";
 
 type Order = "asc" | "desc";
 
@@ -63,14 +63,18 @@ export default function PurchaseRequestsPage() {
     try {
       setLoading(true);
       setError("");
-      const response: any = await api.getPurchaseRequests();
+      const response = (await api.getPurchaseRequests()) as ApiResponse<
+        PurchaseRequest[]
+      >;
 
       if (response.status === "success" && response.data) {
         setPurchaseRequests(response.data);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error = err as any;
       setError(
-        err.response?.data?.message || "Failed to fetch purchase requests"
+        error.response?.data?.message || "Failed to fetch purchase requests"
       );
     } finally {
       setLoading(false);
@@ -101,8 +105,10 @@ export default function PurchaseRequestsPage() {
       setProcessingId(id);
       await api.updatePurchaseRequest(id, { status: "PENDING" });
       await fetchPurchaseRequests();
-    } catch (err: any) {
-      alert(err.response?.data?.message || "Failed to proceed request");
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error = err as any;
+      alert(error.response?.data?.message || "Failed to process request");
     } finally {
       setProcessingId(null);
     }
@@ -129,12 +135,12 @@ export default function PurchaseRequestsPage() {
           ? new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           : new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
-      // @ts-ignore
-      if (b[orderBy] < a[orderBy]) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((b[orderBy] as any) < (a[orderBy] as any)) {
         return isAsc ? 1 : -1;
       }
-      // @ts-ignore
-      if (b[orderBy] > a[orderBy]) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((b[orderBy] as any) > (a[orderBy] as any)) {
         return isAsc ? -1 : 1;
       }
       return 0;
@@ -301,7 +307,7 @@ export default function PurchaseRequestsPage() {
                     <TableRow>
                       <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                         <Typography color="text.secondary">
-                          No drafts found matching "{searchDrafts}"
+                          No drafts found matching &quot;{searchDrafts}&quot;
                         </Typography>
                       </TableCell>
                     </TableRow>
@@ -471,7 +477,7 @@ export default function PurchaseRequestsPage() {
                     <TableRow>
                       <TableCell colSpan={6} align="center" sx={{ py: 4 }}>
                         <Typography color="text.secondary">
-                          No history found matching "{searchHistory}"
+                          No history found matching &quot;{searchHistory}&quot;
                         </Typography>
                       </TableCell>
                     </TableRow>

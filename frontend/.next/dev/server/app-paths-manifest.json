@@ -1,0 +1,5 @@
+{
+  "/page": "app/page.js",
+  "/purchase-requests/[id]/page": "app/purchase-requests/[id]/page.js",
+  "/purchase-requests/page": "app/purchase-requests/page.js"
+}

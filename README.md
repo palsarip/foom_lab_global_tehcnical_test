@@ -30,12 +30,17 @@ Halo! Ini adalah solusi technical test untuk Foom Lab Global. Repository ini ber
       cp .env.example .env
       ```
     - Sesuaikan konfigurasi database di file `.env`.
-4.  Jalankan Migrasi dan Seeding Database:
+4.  Buat Database:
+    ```bash
+    npx sequelize-cli db:create
+    ```
+    > **Note**: Pastikan PostgreSQL sudah berjalan dan kredensial di `.env` sudah benar.
+5.  Jalankan Migrasi dan Seeding Database:
     ```bash
     npx sequelize-cli db:migrate
     npx sequelize-cli db:seed:all
     ```
-5.  Jalankan server:
+6.  Jalankan server:
     ```bash
     npm run dev
     ```

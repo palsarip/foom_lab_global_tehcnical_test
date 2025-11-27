@@ -25,7 +25,7 @@ import {
 } from "@mui/icons-material";
 import { useRouter, useParams } from "next/navigation";
 import { api } from "@/lib/api";
-import { Product, Warehouse } from "@/types";
+import { Product, Warehouse, PurchaseRequestItem } from "@/types";
 
 interface FormItem {
   product_id: string;
@@ -50,48 +50,49 @@ export default function EditPurchaseRequestPage() {
   ]);
 
   useEffect(() => {
-    fetchInitialData();
-  }, []);
+    const fetchInitialData = async () => {
+      try {
+        setLoading(true);
 
-  const fetchInitialData = async () => {
-    try {
-      setLoading(true);
+        const [prRes, productsRes] = await Promise.all([
+          api.getPurchaseRequest(id),
+          api.getProducts({ limit: 100 }),
+        ]);
 
-      const [prRes, productsRes] = await Promise.all([
-        api.getPurchaseRequest(id),
-        api.getProducts({ limit: 100 }),
-      ]);
+        if (prRes.status === "success" && prRes.data) {
+          const pr = prRes.data;
+          setWarehouseId(pr.warehouse_id.toString());
 
-      if (prRes.status === "success" && prRes.data) {
-        const pr = prRes.data;
-        setWarehouseId(pr.warehouse_id.toString());
-
-        if (pr.PurchaseRequestItems && pr.PurchaseRequestItems.length > 0) {
-          setItems(
-            pr.PurchaseRequestItems.map((item: any) => ({
-              product_id: item.product_id,
-              quantity: item.quantity,
-            }))
-          );
+          if (pr.PurchaseRequestItems && pr.PurchaseRequestItems.length > 0) {
+            setItems(
+              pr.PurchaseRequestItems.map((item: PurchaseRequestItem) => ({
+                product_id: item.product_id.toString(),
+                quantity: item.quantity,
+              }))
+            );
+          }
         }
-      }
 
-      if (productsRes.status === "success" && productsRes.data) {
-        setProducts(productsRes.data);
-      }
+        if (productsRes.status === "success" && productsRes.data) {
+          setProducts(productsRes.data);
+        }
 
-      // Hardcoded warehouses as there is no GET /warehouses endpoint yet
-      setWarehouses([
-        { id: 1, name: "Central Warehouse Jakarta" },
-        { id: 2, name: "Branch Warehouse Surabaya" },
-        { id: 3, name: "Branch Warehouse Bandung" },
-      ]);
-    } catch (err: any) {
-      setError("Failed to load purchase request data");
-    } finally {
-      setLoading(false);
-    }
-  };
+        // Hardcoded warehouses as there is no GET /warehouses endpoint yet
+        setWarehouses([
+          { id: 1, name: "Central Warehouse Jakarta" },
+          { id: 2, name: "Branch Warehouse Surabaya" },
+          { id: 3, name: "Branch Warehouse Bandung" },
+        ]);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load purchase request data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchInitialData();
+  }, [id]);
 
   const handleAddItem = () => {
     setItems([...items, { product_id: "", quantity: 1 }]);
@@ -127,9 +128,11 @@ export default function EditPurchaseRequestPage() {
       setTimeout(() => {
         router.push("/purchase-requests");
       }, 1500);
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error = err as any;
       setError(
-        err.response?.data?.message || "Failed to update purchase request"
+        error.response?.data?.message || "Failed to update purchase request"
       );
     } finally {
       setSubmitting(false);

@@ -43,31 +43,33 @@ export default function Dashboard() {
   const [order, setOrder] = useState<"ASC" | "DESC">("ASC");
 
   useEffect(() => {
+    const fetchStocks = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const response: ApiResponse<Stock[]> = await api.getStocks(
+          page + 1,
+          rowsPerPage,
+          search || undefined,
+          sortBy,
+          order
+        );
+
+        if (response.status === "success" && response.data) {
+          setStocks(response.data);
+          setTotal(response.meta?.total || 0);
+        }
+      } catch (err: unknown) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const error = err as any;
+        setError(error.response?.data?.message || "Failed to fetch stocks");
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchStocks();
   }, [page, rowsPerPage, search, sortBy, order]);
-
-  const fetchStocks = async () => {
-    try {
-      setLoading(true);
-      setError("");
-      const response: ApiResponse<Stock[]> = await api.getStocks(
-        page + 1,
-        rowsPerPage,
-        search || undefined,
-        sortBy,
-        order
-      );
-
-      if (response.status === "success" && response.data) {
-        setStocks(response.data);
-        setTotal(response.meta?.total || 0);
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to fetch stocks");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleChangePage = (_event: unknown, newPage: number) => {
     setPage(newPage);
@@ -80,9 +82,9 @@ export default function Dashboard() {
     setPage(0);
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
-    setPage(0);
+    setPage(1);
   };
 
   const handleSort = (property: string) => {
@@ -170,7 +172,7 @@ export default function Dashboard() {
             variant="outlined"
             placeholder="Search products..."
             value={search}
-            onChange={handleSearchChange}
+            onChange={handleSearch}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

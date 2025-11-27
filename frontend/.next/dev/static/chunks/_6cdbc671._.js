@@ -151,7 +151,7 @@ function NewPurchaseRequestPage() {
                     name: "Branch Warehouse Bandung"
                 }
             ]);
-        } catch (err) {
+        } catch  {
             setError("Failed to load form data");
         } finally{
             setLoading(false);
@@ -211,7 +211,9 @@ function NewPurchaseRequestPage() {
                 router.push("/purchase-requests");
             }, 1500);
         } catch (err) {
-            setError(err.response?.data?.message || "Failed to create purchase request");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const error = err;
+            setError(error.response?.data?.message || "Failed to create purchase request");
         } finally{
             setSubmitting(false);
         }

@@ -45,6 +45,42 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
+// Validate ../../app/purchase-requests/[id]/edit/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/purchase-requests/[id]/edit">> = Specific
+  const handler = {} as typeof import("../../app/purchase-requests/[id]/edit/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/purchase-requests/[id]/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/purchase-requests/[id]">> = Specific
+  const handler = {} as typeof import("../../app/purchase-requests/[id]/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/purchase-requests/new/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/purchase-requests/new">> = Specific
+  const handler = {} as typeof import("../../app/purchase-requests/new/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
+// Validate ../../app/purchase-requests/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/purchase-requests">> = Specific
+  const handler = {} as typeof import("../../app/purchase-requests/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 
 
 

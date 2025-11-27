@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/purchase-requests/[id]/edit/page": "/purchase-requests/[id]/edit",
+  "/purchase-requests/[id]/page": "/purchase-requests/[id]",
+  "/purchase-requests/new/page": "/purchase-requests/new",
+  "/purchase-requests/page": "/purchase-requests"
+}

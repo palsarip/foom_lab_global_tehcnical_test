@@ -67,6 +67,56 @@ Halo! Ini adalah solusi technical test untuk Foom Lab Global. Repository ini ber
     ```
     Akses aplikasi di `http://localhost:3000`.
 
+### 3. Testing Webhook dengan Ngrok
+
+Untuk testing webhook dari vendor eksternal (simulasi), Anda perlu expose local server ke internet menggunakan ngrok:
+
+1.  **Install ngrok**:
+
+    - Download dari [ngrok.com](https://ngrok.com/download)
+    - Atau install via package manager:
+
+      ```bash
+      # Windows (Chocolatey)
+      choco install ngrok
+
+      # macOS (Homebrew)
+      brew install ngrok
+
+      # Linux (Snap)
+      snap install ngrok
+      ```
+
+2.  **Jalankan ngrok** untuk expose backend server:
+    ```bash
+    ngrok http 8080
+    ```
+3.  **Copy URL ngrok** yang muncul (contoh: `https://abc123.ngrok.io`)
+
+4.  **Gunakan URL webhook** untuk testing:
+
+    ```
+    https://abc123.ngrok.io/webhook/purchase-request
+    ```
+
+    > **Note**: URL ngrok ini yang akan digunakan oleh vendor untuk mengirim notifikasi status purchase request.
+
+5.  **Testing webhook** dengan curl atau Postman:
+    ```bash
+    curl -X POST https://abc123.ngrok.io/webhook/purchase-request \
+      -H "Content-Type: application/json" \
+      -d '{
+        "purchase_request_id": 1,
+        "status": "COMPLETED"
+      }'
+    ```
+
+> **Tips**:
+>
+> - Ngrok free tier akan generate URL baru setiap kali restart. Untuk URL tetap, gunakan ngrok paid plan.
+> - Pastikan backend server sudah running sebelum menjalankan ngrok.
+> - Monitor webhook requests di ngrok dashboard: `http://127.0.0.1:4040`
+
 ## Keputusan Desain (Design Decisions)
 
 ### 1. Arsitektur
